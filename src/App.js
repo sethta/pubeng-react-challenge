@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox, Repeatable, Text, Textarea } from './components'
+import { Checkbox, Repeatable, Select, Text, Textarea } from './components'
 import api from './mockApi'
 
 class App extends React.Component {
@@ -96,6 +96,9 @@ class App extends React.Component {
         </Input>
         <Input label="Upcoming" id="upcoming">
           {props => <Checkbox {...props} />}
+        </Input>
+        <Input label="Release Year" id="year">
+          {props => <Select {...props} options={[...Array(11)].map((e,i) => i + 2010 )} />}
         </Input>
         <Input label="Description" id="description">
           {props => <Textarea {...props} />}
