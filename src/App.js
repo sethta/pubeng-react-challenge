@@ -22,14 +22,17 @@ class App extends React.Component {
   }
 
   /**
-   * 
+   * Handles the state change from pervious to updated
+   * @param {object} delta - Specific changes to state
    */
   handleChange(delta) {
     this.setState(({ data }) => ({ data: { ...data, ...delta }}))
   }
 
   /**
-   * 
+   * Handles the update to API at submission
+   * @param {boolean} publish - Publish (true) or draft (false)
+   * @return {object} results - Current API data
    */
   async handleUpdate(publish = false) {
     const { data } = this.state
@@ -39,7 +42,11 @@ class App extends React.Component {
   }
 
   /**
-   * 
+   * Reusable input component to render out input fields
+   * @param {function} children - Rendered input fielded component
+   * @param {boolean} iterable - Repeatable field (true) or not
+   * @param {string} label - Field label that gets rendered
+   * @param {strong} id - ID of the field and API data prop
    */
   Input({ children, iterable, label, id }) {
     const handleChange = value => {
