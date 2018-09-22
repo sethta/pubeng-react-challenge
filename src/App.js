@@ -50,6 +50,10 @@ class App extends React.Component {
    */
   Input({ children, iterable, label, id }) {
     const handleChange = value => {
+      // Make sure result is integer if type is number and step is 1
+      if(children(props).props.type==="number" && children(props).props.step==="1") {
+        value = parseInt(value, 10)
+      }
       this.handleChange({ [id]: value })
     }
     const value = this.state.data[id]
@@ -105,6 +109,9 @@ class App extends React.Component {
         </Input>
         <Input label="Cast" iterable id="cast">
           {props => <Repeatable {...props} />}
+        </Input>
+        <Input label="Rating" id="rating">
+          {props => <Text {...props} type="number" min="1" max="5" step="1" />}
         </Input>
         <button onClick={() => this.handleUpdate(true)}>
           {'Publish'}
