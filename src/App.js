@@ -6,7 +6,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: true,
+      isLoading: 'Loading',
+      isUpdated: null,
       data: {
         title: '',
         rating: 0,
@@ -27,14 +28,15 @@ class App extends React.Component {
    */
   componentDidMount() {
     if(this.props.id) {
-      api.get(this.props.id).then((data) => {
-        this.setState({isLoading: false, data: data})
-      })
-      // Invalid ID
-      .catch((data) => {
-        console.log('ID not found')
-        this.setState({isLoading: false})
-      })
+      api.get(this.props.id)
+        .then((data) => {
+          this.setState({isLoading: false, data: data})
+        })
+        // Invalid ID
+        .catch((data) => {
+          console.log('ID not found')
+          this.setState({isLoading: false})
+        })
     } else {
       this.setState({isLoading: false})
     }
@@ -55,8 +57,17 @@ class App extends React.Component {
    */
   async handleUpdate(publish = false) {
     const { data } = this.state
+    this.setState({isUpdated: null, isLoading: 'Updating'})
     const results = await api.post({ ...data, publish })
-    console.log('Content updated!')
+      .then((data) => {
+        console.log('Content updated!')
+        this.setState({isUpdated: true, isLoading: false})
+      })
+      .catch((data) => {
+        console.log('Content NOT updated!')
+        this.setState({isUpdated: false, isLoading: false})
+      })
+
     return results
   }
 
@@ -123,7 +134,7 @@ class App extends React.Component {
     const { Input } = this
     return (
       <div className="Form">
-        <Notice isLoading={this.state.isLoading} />
+        <Notice isLoading={this.state.isLoading} isUpdated={this.state.isUpdated} />
         <Input label="Title" id="title">
           {props => <Text {...props} />}
         </Input>
