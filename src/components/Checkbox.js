@@ -1,3 +1,12 @@
 import React from 'react'
 
-export default props => <input type="checkbox" {...props} />
+const Checkbox = (props) => {
+  let checked = false
+  if (props.value===true) {
+    checked = true
+  }
+
+  return <input type="checkbox" {...props} />
+}
+
+export default Checkbox

@@ -11,7 +11,7 @@ class App extends React.Component {
         rating: 0,
         year: null,
         description: '',
-        upcoming: true, 
+        upcoming: false, 
         cast: [],
       }
     }
@@ -80,7 +80,16 @@ class App extends React.Component {
         id,
         value,
         onBlur: () => this.handleUpdate(false),
-        onChange: e => handleChange(e.target.value),
+        onChange: e => {
+          let targetValue = e.target.value;
+          if (e.target.type==="checkbox") {
+            targetValue = false
+            if (e.target.checked) {
+              targetValue = true
+            }
+          }
+          return handleChange(targetValue)
+        },
       }
     }
     return (
