@@ -1,11 +1,12 @@
 import React from 'react'
-import { Checkbox, Repeatable, Select, Text, Textarea } from './components'
+import { Checkbox, Notice, Repeatable, Select, Text, Textarea } from './components'
 import api from './mockApi'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      isLoading: true,
       data: {
         title: '',
         rating: 0,
@@ -19,6 +20,24 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this)
     this.Input = this.Input.bind(this)
+  }
+
+  /**
+   * Loads existing data if id prop exists
+   */
+  componentDidMount() {
+    if(this.props.id) {
+      api.get(this.props.id).then((data) => {
+        this.setState({isLoading: false, data: data})
+      })
+      // Invalid ID
+      .catch((data) => {
+        console.log('ID not found')
+        this.setState({isLoading: false})
+      })
+    } else {
+      this.setState({isLoading: false})
+    }
   }
 
   /**
@@ -104,6 +123,7 @@ class App extends React.Component {
     const { Input } = this
     return (
       <div className="Form">
+        <Notice isLoading={this.state.isLoading} />
         <Input label="Title" id="title">
           {props => <Text {...props} />}
         </Input>
